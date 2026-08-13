@@ -48,6 +48,7 @@
       "customIconPath": "",
       "colorizeDistroLogo": false,
       "colorizeSystemIcon": "none",
+      "colorizeSystemText": "none",
       "enableColorization": false
     },
     "CustomButton": {
@@ -111,6 +112,7 @@
       "icon": "rocket",
       "customIconPath": "",
       "colorizeSystemIcon": "none",
+      "colorizeSystemText": "none",
       "enableColorization": false,
       "iconColor": "none"
     },
@@ -211,6 +213,7 @@
     "PowerProfile": {
       "iconColor": "none"
     },
+    "DynamicIsland": {},
     "Workspace": {
       "labelMode": "index",
       "followFocusedScreen": false,

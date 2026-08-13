@@ -7,18 +7,24 @@ import Quickshell.Wayland
 import Quickshell.Widgets
 import qs.Commons
 import qs.Services.System
+import qs.Services.UI
 import qs.Widgets
 
 // Simple notification popup - displays multiple notifications
 Variants {
 
   model: {
-    const screens = Quickshell.screens.filter(screen => Settings.data.notifications.monitors.includes(screen.name));
+    DynamicIslandService.revision;
+    BarService.widgetsRevision;
+    var screens = Quickshell.screens.filter(screen => Settings.data.notifications.monitors.includes(screen.name));
     // Empty list can mean two things :
     // - No (visible) notification display activated in settings
     // - One or more (not visible) displays are activated but unplugged
     // In both cases we fallback to show notification on all screens
-    return screens.length === 0 ? Quickshell.screens : screens;
+    if (screens.length === 0)
+      screens = Quickshell.screens;
+    // The dynamic island takes over notification popups where it's active
+    return screens.filter(screen => !DynamicIslandService.hasIslandWidget(screen.name));
   }
 
   delegate: Loader {

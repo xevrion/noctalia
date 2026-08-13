@@ -20,6 +20,7 @@ import qs.Modules.Background
 import qs.Modules.Bar
 import qs.Modules.DesktopWidgets
 import qs.Modules.Dock
+import qs.Modules.DynamicIsland
 import qs.Modules.LockScreen
 import qs.Modules.MainScreen
 import qs.Modules.Notification
@@ -135,6 +136,7 @@ ShellRoot {
       Notification {}
       ToastOverlay {}
       OSD {}
+      DynamicIsland {}
 
       // Launcher overlay window (for overlay layer mode)
       Loader {

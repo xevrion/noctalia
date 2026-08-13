@@ -21,6 +21,7 @@ Singleton {
                            "ControlCenter": controlCenterComponent,
                            "CustomButton": customButtonComponent,
                            "DarkMode": darkModeComponent,
+                           "DynamicIsland": dynamicIslandComponent,
                            "KeepAwake": keepAwakeComponent,
                            "KeyboardLayout": keyboardLayoutComponent,
                            "LockKeys": lockKeysComponent,
@@ -291,6 +292,7 @@ Singleton {
                                   "PowerProfile": {
                                     "iconColor": "none"
                                   },
+                                  "DynamicIsland": {},
                                   "Workspace": {
                                     "labelMode": "index",
                                     "followFocusedScreen": false,
@@ -346,6 +348,9 @@ Singleton {
   }
   property Component darkModeComponent: Component {
     DarkMode {}
+  }
+  property Component dynamicIslandComponent: Component {
+    DynamicIsland {}
   }
   property Component keyboardLayoutComponent: Component {
     KeyboardLayout {}

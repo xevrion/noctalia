@@ -22,7 +22,12 @@ Variants {
     LockKey
   }
 
-  model: Quickshell.screens.filter(screen => (Settings.data.osd.monitors.includes(screen.name) || Settings.data.osd.monitors.length === 0) && Settings.data.osd.enabled)
+  model: {
+    DynamicIslandService.revision;
+    BarService.widgetsRevision;
+    // The dynamic island takes over the OSD on screens where it's active
+    return Quickshell.screens.filter(screen => (Settings.data.osd.monitors.includes(screen.name) || Settings.data.osd.monitors.length === 0) && Settings.data.osd.enabled && !DynamicIslandService.hasIslandWidget(screen.name));
+  }
 
   delegate: Loader {
     id: root
