@@ -183,7 +183,11 @@ PanelWindow {
   color: "transparent"
 
   WlrLayershell.namespace: "noctalia-dynamic-island-" + screenName
-  WlrLayershell.layer: WlrLayer.Overlay
+  // Resting island sits on Top like the bar (so fullscreen windows cover it);
+  // event states promote to Overlay so OSD/notifications pop over fullscreen.
+  // Startup stays on Overlay until the bar windows have mapped, so demoting
+  // re-inserts us above them within the Top layer.
+  WlrLayershell.layer: (!startupComplete || islandState !== "normal") ? WlrLayer.Overlay : WlrLayer.Top
   WlrLayershell.exclusionMode: ExclusionMode.Ignore
   WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
@@ -431,12 +435,28 @@ PanelWindow {
   }
 
   // ---------------------------------------------------------------------------
+  // Reveal/conceal with the bar (overview, IPC bar toggle): resting states hide
+  // with it, event states still reveal. Tide-island timings: fast in, slow out.
+  readonly property bool capsuleShown: BarService.effectivelyVisible || islandState !== "normal"
+
+  property real revealProgress: capsuleShown ? 1 : 0
+  Behavior on revealProgress {
+    NumberAnimation {
+      duration: root.capsuleShown ? 120 : 300
+      easing.type: root.capsuleShown ? Easing.OutCubic : Easing.InCubic
+    }
+  }
+
+  // ---------------------------------------------------------------------------
   // The capsule
   Rectangle {
     id: capsule
 
     x: Math.round((parent.width - width) / 2)
-    y: root.capsuleY
+    y: root.capsuleY - (1 - root.revealProgress) * (root.targetHeight + root.capsuleY + 8)
+    opacity: root.revealProgress
+    scale: 0.96 + root.revealProgress * 0.04
+    transformOrigin: Item.Top
     width: Math.round(root.targetWidth)
     height: Math.round(root.targetHeight)
     radius: root.targetRadius
